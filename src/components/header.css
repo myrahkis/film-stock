@@ -1,0 +1,45 @@
+.header {
+    display: flex;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #075968;
+    color: aliceblue;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.btns {
+    display: inherit;
+    align-items: center;
+}
+.logo {
+    display: inherit;
+    align-items: center;
+    margin-right: 20px;
+}
+.icon {
+    width: 35px;
+    height: 30px;
+    /* margin-right: 5px; */
+}
+
+.btn-header {
+    border: none;
+    background-color: #075968;
+    color: aliceblue;
+    cursor: pointer;
+}
+
+.search {
+    width: 50%;
+    height: 2rem;
+    padding: 10px;
+    color: whitesmoke;
+    border: none;
+    background-color: #4a8b9b;
+    border-color: #4a8b9b;
+    border-radius: 10px;
+}

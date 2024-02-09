@@ -3,6 +3,7 @@ import "./App.css";
 import Header from "./components/header";
 import Watched from "./components/watched";
 import Favs from "./components/favs";
+import Home from "./components/home";
 
 function App() {
   const [openHome, setOpenHome] = useState(true);
@@ -10,17 +11,17 @@ function App() {
   const [openFav, setOpenFav] = useState(false);
 
   function openHomeHandle() {
-    setOpenHome(!openHome);
+    setOpenHome(true);
     setOpenFav(false);
     setOpenWatched(false);
   }
   function openWatchedHandle() {
-    setOpenWatched(!openWatched);
+    setOpenWatched(true);
     setOpenHome(false);
     setOpenFav(false);
   }
   function openFavHandle() {
-    setOpenFav(!openFav);
+    setOpenFav(true);
     setOpenHome(false);
     setOpenWatched(false);
   }
@@ -35,8 +36,9 @@ function App() {
         openFav={openFav}
         openHome={openHome}
       />
-      { openWatched && <Watched /> }
-      { openFav && <Favs /> }
+      {openWatched && <Watched />}
+      {openFav && <Favs />}
+      {openHome && <Home />}
     </div>
   );
 }

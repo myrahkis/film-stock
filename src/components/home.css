@@ -1,0 +1,14 @@
+.list {
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+}
+
+.show {
+  margin: 30px;
+}
+
+.poster {
+  width: 100px;
+  height: 150px;
+}

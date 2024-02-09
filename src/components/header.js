@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./header.css";
 
-function Header() {
+function Header({ onHome, onWatched, onFav, openWatched, openFav, openHome }) {
   const [search, setSearch] = useState("");
 
   return (
@@ -13,12 +13,30 @@ function Header() {
             alt="img"
             className="icon"
           />
-          <button className="btn-header">
+          <button
+            className={openHome !== true ? "btn-home" : "btn-header-opened"}
+            onClick={onHome}
+          >
             <h3>ShowSlayer</h3>
           </button>
         </div>
-        <button className="btn-header" style={{marginRight: '15px'}}><h4>Watched</h4></button>
-        <button className="btn-header"><h4>Favourites</h4></button>
+        <button
+          className="btn-header"
+          style={
+            openWatched === true
+              ? { color: "#fb9038", marginRight: "15px" }
+              : { marginRight: "15px" }
+          }
+          onClick={onWatched}
+        >
+          <h4>Watched</h4>
+        </button>
+        <button
+          className={openFav !== true ? "btn-header" : "btn-header-opened"}
+          onClick={onFav}
+        >
+          <h4>Favourites</h4>
+        </button>
       </div>
       <input
         type="text"

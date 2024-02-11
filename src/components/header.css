@@ -17,31 +17,13 @@
 .logo {
   display: inherit;
   align-items: center;
-  margin-right: 20px;
+  /* margin-right: 20px; */
 }
 .icon {
   width: 35px;
   height: 30px;
+  margin-right: -15px;
   /* margin-right: 5px; */
-}
-
-.btn-header {
-  border: none;
-  background-color: #075968;
-  color: rgb(161, 169, 175);
-  cursor: pointer;
-}
-.btn-home {
-  border: none;
-  background-color: #075968;
-  color: aliceblue;
-  cursor: pointer;
-}
-.btn-header-opened {
-  cursor: pointer;
-  border: none;
-  background-color: #075968;
-  color: #fb9038;
 }
 
 .search {

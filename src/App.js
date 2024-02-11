@@ -4,6 +4,7 @@ import Header from "./components/header";
 import Watched from "./components/watched";
 import Favs from "./components/favs";
 import Home from "./components/home";
+import ButtonHeader from "./components/buttonHeader";
 
 function App() {
   const [openHome, setOpenHome] = useState(true);
@@ -28,14 +29,17 @@ function App() {
 
   return (
     <div className="App">
-      <Header
-        onHome={openHomeHandle}
-        onWatched={openWatchedHandle}
-        onFav={openFavHandle}
-        openWatched={openWatched}
-        openFav={openFav}
-        openHome={openHome}
-      />
+      <Header>
+        <ButtonHeader opened={openHome} setter={openHomeHandle}>
+          ShowSlayer
+        </ButtonHeader>
+        <ButtonHeader opened={openWatched} setter={openWatchedHandle}>
+          Watched
+        </ButtonHeader>
+        <ButtonHeader opened={openFav} setter={openFavHandle}>
+          Favourites
+        </ButtonHeader>
+      </Header>
       {openWatched && <Watched />}
       {openFav && <Favs />}
       {openHome && <Home />}

@@ -1,15 +1,91 @@
+.boxes-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .list {
   display: flex;
   list-style-type: none;
   justify-content: center;
   flex-wrap: wrap;
+  color: aliceblue;
+}
+.list-box {
+  display: flex;
+  list-style-type: none;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: #004d5c;
+  color: aliceblue;
+  width: 45%;
 }
 
 .show {
   margin: 30px;
 }
+.show-box {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+}
+.show-box:hover {
+  background-color: #075968;
+}
 
 .poster {
   width: 200px;
   height: 300px;
+}
+.poster-box {
+  width: 70px;
+  height: 100px;
+}
+.poster-opened {
+  width: 100px;
+  height: 130px;
+}
+
+.info-box {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  gap: 10px;
+}
+
+.wrapper-closed {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px;
+}
+.wrapper-box {
+  display: flex;
+  flex-direction: row;
+}
+
+.opened-show-box {
+  display: flex;
+  flex-direction: column;
+  background-color: #004d5c;
+  color: aliceblue;
+  padding: 30px;
+  border-radius: 15px;
+  width: 45%;
+}
+.header-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: max-content;
+  background-color: #075968;
+  gap: 10px;
+}
+
+.back-btn {
+  cursor: pointer;
+  border: none;
+  width: fit-content;
+  background-color: #004d5c;
+  color: aliceblue;
 }

@@ -7,6 +7,7 @@ function StarRating() {
 
   return (
     <div className="wrapper">
+      <p>Rate the show</p>
       <div className="rating-wrapper">
         <div className="starts">
           {Array.from({ length: 10 }, (_, i) => (

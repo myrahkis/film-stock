@@ -40,9 +40,11 @@ function App() {
           Favourites
         </ButtonHeader>
       </Header>
-      {openWatched && <Watched />}
-      {openFav && <Favs />}
-      {openHome && <Home />}
+      <div className="container-main main">
+        {openWatched && <Watched />}
+        {openFav && <Favs />}
+        {openHome && <Home />}
+      </div>
     </div>
   );
 }

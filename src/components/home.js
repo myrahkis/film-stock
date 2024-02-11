@@ -33,7 +33,7 @@ const defaultShows = [
 
 function Home() {
   return (
-    <div className="container">
+    <>
       <h2>Hits</h2>
       <ul className="list">
         {defaultShows.map((show) => (
@@ -41,12 +41,18 @@ function Home() {
             <p>{show.title}</p>
             <img src={show.img} alt="sorry" className="poster" />
             <p>{show.year}</p>
-            <p>Rating {show.rating}</p>
+            <p>
+              <span>⭐</span> {show.rating}
+            </p>
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
+}
+
+function RateAShow() {
+  
 }
 
 export default Home;

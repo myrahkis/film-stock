@@ -10,6 +10,7 @@ function App() {
   const [openHome, setOpenHome] = useState(true);
   const [openWatched, setOpenWatched] = useState(false);
   const [openFav, setOpenFav] = useState(false);
+  const [search, setSearch] = useState("");
 
   function openHomeHandle() {
     setOpenHome(true);
@@ -29,7 +30,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header>
+      <Header search={search} setSearch={setSearch}>
         <ButtonHeader opened={openHome} setter={openHomeHandle}>
           ShowSlayer
         </ButtonHeader>
@@ -43,7 +44,7 @@ function App() {
       <div className="container-main main">
         {openWatched && <Watched />}
         {openFav && <Favs />}
-        {openHome && <Home />}
+        {openHome && <Home searchShow={search} />}
       </div>
     </div>
   );

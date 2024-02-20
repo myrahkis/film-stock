@@ -1,9 +1,6 @@
-import React, { useState } from "react";
 import "./header.css";
 
-function Header({ children }) {
-  const [search, setSearch] = useState("");
-
+function Header({ search, setSearch, children }) {
   return (
     <div className="header">
       <div className="btns">
@@ -23,7 +20,7 @@ function Header({ children }) {
         placeholder="Search a TV show..."
         className="search"
       ></input>
-      <p>Found N results</p>
+      <p>Found {search.length} results</p>
     </div>
   );
 }

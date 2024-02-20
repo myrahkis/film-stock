@@ -89,3 +89,11 @@
   background-color: #004d5c;
   color: aliceblue;
 }
+
+.loader {
+  text-transform: uppercase;
+}
+
+.error {
+  color:#900000;
+}

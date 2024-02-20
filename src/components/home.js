@@ -40,6 +40,7 @@ function Home({ searchShow }) {
   const [selected, setSelected] = useState(null);
   const [shows, setShows] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   function openHadle(show) {
     setOpen(true);
@@ -50,15 +51,35 @@ function Home({ searchShow }) {
   useEffect(
     function () {
       async function fetchShows() {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${searchShow}&type=series`
-        );
-        const data = await res.json();
+        try {
+          setIsLoading(true);
+          setError("");
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${searchShow}&type=series`
+          );
 
-        setShows(data.Search);
-        setIsLoading(false);
+          if (!res.ok)
+            throw new Error("Something went wrong with shows loading:(");
+
+          const data = await res.json();
+
+          if (data.Response === "False")
+            throw new Error("Cannot find the show");
+
+          setShows(data.Search);
+        } catch (e) {
+          console.log(e.message);
+          setError(e.message);
+        } finally {
+          setIsLoading(false);
+        }
       }
+      if (searchShow.length < 3) {
+        setShows(defaultShows);
+        setError("");
+        return;
+      }
+
       fetchShows();
     },
     [searchShow]
@@ -67,9 +88,9 @@ function Home({ searchShow }) {
   return (
     <>
       {!open && <h2>Hits</h2>}
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {isLoading && <Loader />}
+      {error && <Error msg={error} />}
+      {!isLoading && !error && (
         <div className="boxes-wrapper">
           <ul className={!open ? "list" : "list-box"}>
             {shows?.map((show) => (
@@ -111,6 +132,10 @@ function Home({ searchShow }) {
       )}
     </>
   );
+}
+
+function Error({ msg }) {
+  return <p className="error">{msg}</p>;
 }
 
 function Loader() {

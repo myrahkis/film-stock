@@ -44,8 +44,8 @@ function Home({ searchShow }) {
 
   function openHadle(show) {
     setOpen(true);
-    setSelected(show);
-    console.log(show);
+    setSelected(show.imdbID);
+    // console.log(show);
   }
 
   useEffect(
@@ -113,9 +113,9 @@ function Home({ searchShow }) {
                       <span>📅</span>
                       {show.Year}
                     </p>
-                    <p>
+                    {/* <p>
                       <span>⭐</span> {show.rating}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </li>
@@ -123,7 +123,7 @@ function Home({ searchShow }) {
           </ul>
           {open && (
             <RateAShow
-              key={selected.imdbID}
+              // key={selected.imdbID}
               selectedShow={selected}
               onBack={setOpen}
             ></RateAShow>
@@ -143,8 +143,31 @@ function Loader() {
 }
 
 function RateAShow({ selectedShow, onBack }) {
+  const [showDetails, setShowDetails] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(
+    function () {
+      async function getShowDetails() {
+        setIsLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedShow}&plot=full&`
+        );
+        const data = await res.json();
+
+        setShowDetails(data);
+        setIsLoading(false);
+        // console.log(showDetails);
+      }
+
+      getShowDetails();
+    },
+    [selectedShow]
+  );
+
   return (
     <div className="opened-show-box">
+      {isLoading && <Loader />}
       <button className="back-btn" onClick={() => onBack(false)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -161,21 +184,27 @@ function RateAShow({ selectedShow, onBack }) {
         </svg>
       </button>
       <div className="header-wrapper">
-        <img src={selectedShow.Poster} alt="sorry" className="poster-opened" />
+        <img src={showDetails.Poster} alt="sorry" className="poster-opened" />
         <div className="info-box">
-          <h3>{selectedShow.Title}</h3>
+          <h3>{showDetails.Title}</h3>
           <div className="">
             <p>
               <span>📅</span>
-              {selectedShow.Year}
+              {showDetails.Year}
             </p>
             <p>
-              <span>⭐</span> {selectedShow.rating}
+              <span>⭐</span> {showDetails.imdbRating}
             </p>
+            <p>
+              Episode duration: <span>{showDetails.Runtime}s</span>
+            </p>
+            <p>{showDetails.Genre}</p>
           </div>
         </div>
       </div>
-      <StarRating />
+      <p>{showDetails.Plot}</p>
+      <p>Starring: {showDetails.Actors}</p>
+      <StarRating key={showDetails.imdbID}/>
     </div>
   );
 }

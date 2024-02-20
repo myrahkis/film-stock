@@ -39,6 +39,7 @@ function Home({ searchShow }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const [shows, setShows] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   function openHadle(show) {
     setOpen(true);
@@ -48,9 +49,17 @@ function Home({ searchShow }) {
 
   useEffect(
     function () {
-      fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${searchShow}&type=series`)
-        .then((res) => res.json())
-        .then((data) => setShows(data.Search));
+      async function fetchShows() {
+        setIsLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${searchShow}&type=series`
+        );
+        const data = await res.json();
+
+        setShows(data.Search);
+        setIsLoading(false);
+      }
+      fetchShows();
     },
     [searchShow]
   );
@@ -58,46 +67,54 @@ function Home({ searchShow }) {
   return (
     <>
       {!open && <h2>Hits</h2>}
-      <div className="boxes-wrapper">
-        <ul className={!open ? "list" : "list-box"}>
-          {shows?.map((show) => (
-            <li className={!open ? "show" : "show-box"} key={show.imdbID}>
-              <img
-                src={show.Poster}
-                alt="sorry"
-                className={!open ? "poster" : "poster-box"}
-              />
-              <div className="info-box">
-                <p
-                  role="button"
-                  onClick={() => openHadle(show)}
-                  style={{ cursor: "pointer" }}
-                >
-                  {show.Title}
-                </p>
-                <div className={!open ? "wrapper-closed" : "wrapper-box"}>
-                  <p>
-                    <span>📅</span>
-                    {show.Year}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="boxes-wrapper">
+          <ul className={!open ? "list" : "list-box"}>
+            {shows?.map((show) => (
+              <li className={!open ? "show" : "show-box"} key={show.imdbID}>
+                <img
+                  src={show.Poster}
+                  alt="sorry"
+                  className={!open ? "poster" : "poster-box"}
+                />
+                <div className="info-box">
+                  <p
+                    role="button"
+                    onClick={() => openHadle(show)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {show.Title}
                   </p>
-                  <p>
-                    <span>⭐</span> {show.rating}
-                  </p>
+                  <div className={!open ? "wrapper-closed" : "wrapper-box"}>
+                    <p>
+                      <span>📅</span>
+                      {show.Year}
+                    </p>
+                    <p>
+                      <span>⭐</span> {show.rating}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-        {open && (
-          <RateAShow
-            key={selected.imdbID}
-            selectedShow={selected}
-            onBack={setOpen}
-          ></RateAShow>
-        )}
-      </div>
+              </li>
+            ))}
+          </ul>
+          {open && (
+            <RateAShow
+              key={selected.imdbID}
+              selectedShow={selected}
+              onBack={setOpen}
+            ></RateAShow>
+          )}
+        </div>
+      )}
     </>
   );
+}
+
+function Loader() {
+  return <p className="loader">Loading...</p>;
 }
 
 function RateAShow({ selectedShow, onBack }) {

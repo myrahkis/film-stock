@@ -48,7 +48,7 @@ function Home({ searchShow }) {
 
   useEffect(
     function () {
-      fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${searchShow}&type=series`)
+      fetch(`https://www.omdbapi.com/?apikey=${KEY}&s=${searchShow}&type=series`)
         .then((res) => res.json())
         .then((data) => setShows(data.Search));
     },

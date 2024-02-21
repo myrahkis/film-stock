@@ -22,7 +22,7 @@ function StarRating() {
         </div>
         <span className="rating">{hoverRating || rating || ""}</span>
       </div>
-      <button className="watched-btn">+ Mark as watched</button>
+
     </div>
   );
 }

@@ -3,16 +3,20 @@
   flex-direction: column;
   justify-content: center;
   max-width: 300px;
-  padding: 15px;
-  background-color: #004d5c;
+  padding: 10px;
+  background-color: #075968;
   border-radius: 10px;
+  margin: 15px auto;
 }
 
 .rating-wrapper {
   display: inherit;
   justify-content: center;
   flex-direction: row;
-  margin-bottom: 15px;
+  align-items: center;
+  margin-top: 5px;
+  min-width: 278px;
+  /* margin-bottom: 15px; */
 }
 
 .rating {
@@ -34,7 +38,6 @@
 }
 
 .watched-btn {
-  margin: 0 auto;
   cursor: pointer;
   border: none;
   border-radius: 10px;

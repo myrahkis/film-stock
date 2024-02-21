@@ -1,0 +1,13 @@
+.list-watched {
+  display: flex;
+  gap: 20px;
+}
+
+.watched-show {
+  display: flex;
+}
+
+.poster-watched {
+  width: 100px;
+  height: 150px;
+}

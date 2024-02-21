@@ -89,10 +89,15 @@
   flex-direction: row;
   height: max-content;
   background-color: #075968;
+  justify-content: space-between;
   gap: 10px;
   /* padding: 10px; */
   /* margin-bottom: 10px; */
   border-radius: 10px;
+}
+.hepl-me {
+  display: inherit;
+  flex-direction: row;
 }
 .main-info-wrapper {
   display: inherit;
@@ -106,6 +111,11 @@
   min-width: fit-content;
 }
 
+/* .header-btns-wrapper {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+} */
 .back-btn {
   position: absolute;
   margin: 5px;
@@ -115,6 +125,16 @@
   background-color: transparent;
   color: aliceblue;
   z-index: 999;
+}
+.like-btn {
+  display: inline-flex;
+  height: fit-content;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  /* z-index: 999; */
+  background-color: transparent;
+  /* left: 79.3%; */
 }
 
 .loader {
@@ -132,6 +152,7 @@
   gap: 10px;
 }
 .plot {
+  font-style: italic;
   text-align: justify;
   margin-top: 5px;
 }

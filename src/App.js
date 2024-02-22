@@ -78,6 +78,8 @@ function App() {
             onWatched={addToWatchedHandle}
             onLike={likeShowHandle}
             checkIfLiked={checkIfLiked}
+            watchedList={watchedList}
+            favsList={favsList}
           />
         )}
       </div>

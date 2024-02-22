@@ -18,7 +18,7 @@ function UserList({ list }) {
                 </p>
                 <span>●</span>
                 <p>
-                  <span>⭐</span> {show.imdbRating}
+                  <span>⭐</span> {show.userRating}
                 </p>
               </div>
               <p>

@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import "./starRating.css";
 
-function StarRating() {
+function StarRating({ onRate }) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+
+  function ratingHandle(rating) {
+    setRating(rating);
+    onRate(rating);
+  }
 
   return (
     <div className="wrapper">
@@ -14,7 +19,7 @@ function StarRating() {
             <Star
               key={i}
               isFull={hoverRating ? hoverRating >= i + 1 : rating >= i + 1}
-              onRate={() => setRating(i + 1)}
+              onRate={() => ratingHandle(i + 1)}
               onHover={() => setHoverRating(i + 1)}
               onLeave={() => setHoverRating(0)}
             />
@@ -22,7 +27,6 @@ function StarRating() {
         </div>
         <span className="rating">{hoverRating || rating || ""}</span>
       </div>
-
     </div>
   );
 }

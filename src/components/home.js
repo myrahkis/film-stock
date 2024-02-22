@@ -44,6 +44,8 @@ function Home({
   onWatched,
   onLike,
   checkIfLiked,
+  watchedList,
+  favsList,
 }) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -166,6 +168,8 @@ function Home({
               onWatched={onWatched}
               onLike={onLike}
               isLiked={checkIfLiked}
+              watchedList={watchedList}
+              favsList={favsList}
             ></RateAShow>
           )}
         </div>
@@ -174,9 +178,26 @@ function Home({
   );
 }
 
-function RateAShow({ selectedShow, onBack, onWatched, onLike, isLiked }) {
+function RateAShow({
+  selectedShow,
+  onBack,
+  onWatched,
+  onLike,
+  isLiked,
+  watchedList,
+  favsList,
+}) {
   const [showDetails, setShowDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const isWatched = watchedList
+    .map((show) => show.imdbID)
+    .includes(selectedShow); // такое же для лайков мб
+
+  const watchedUserRating = watchedList.find(
+    (show) => show.imdbID === selectedShow
+  )?.userRating;
 
   function addHandle(fn) {
     const newWatched = {
@@ -184,11 +205,12 @@ function RateAShow({ selectedShow, onBack, onWatched, onLike, isLiked }) {
       Title: showDetails.Title,
       Year: showDetails.Year,
       Poster: showDetails.Poster,
-      imdbRating: showDetails.imdbRating,
+      userRating: userRating,
       Runtime: showDetails.Runtime,
     };
 
     fn(newWatched);
+    setUserRating(0);
   }
 
   useEffect(
@@ -293,10 +315,23 @@ function RateAShow({ selectedShow, onBack, onWatched, onLike, isLiked }) {
               <ins>Starring:</ins> {showDetails.Actors}
             </p>
           </div>
-          <StarRating key={showDetails.imdbID} />
-          <button className="watched-btn" onClick={() => addHandle(onWatched)}>
-            + Mark as watched
-          </button>
+          {!isWatched ? (
+            <>
+              <StarRating key={showDetails.imdbID} onRate={setUserRating} />
+              {userRating > 0 && (
+                <button
+                  className="watched-btn"
+                  onClick={() => addHandle(onWatched)}
+                >
+                  + Mark as watched
+                </button>
+              )}
+            </>
+          ) : (
+            <p style={{ color: "whitesmoke", marginTop: "15px" }}>
+              You've rated this show {watchedUserRating}!
+            </p>
+          )}
         </>
       )}
     </div>

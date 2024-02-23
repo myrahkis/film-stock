@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/header";
 import Home from "./components/home";
@@ -48,6 +48,20 @@ function App() {
 
   const isLiked = favsList.map((show) => show.imdbID).includes(selected);
 
+  useEffect(function listeningToEsc() {
+    function callback(e) {
+      if (e.code === "Escape") {
+        setOpenHome(true);
+        setOpenWatched(false);
+        setOpenFav(false);
+      }
+    }
+
+    document.addEventListener("keydown", callback);
+
+    return () => document.removeEventListener('keydown', callback);
+  }, []);
+
   function openHomeHandle() {
     setOpenHome(true);
     setOpenFav(false);
@@ -72,7 +86,9 @@ function App() {
   }
 
   function deleteWatchedHandle(id) {
-    setWatchedList((watchedList) => watchedList.filter((show) => show.imdbID !== id));
+    setWatchedList((watchedList) =>
+      watchedList.filter((show) => show.imdbID !== id)
+    );
   }
   function deleteFavsHandle(id) {
     setFavsList((favsList) => favsList.filter((show) => show.imdbID !== id));
@@ -97,8 +113,14 @@ function App() {
         </ButtonHeader>
       </Header>
       <div className="container-main main">
-        {openWatched && <UserList list={watchedList} onDelete={deleteWatchedHandle} isLike={isLiked}/>}
-        {openFav && <UserList list={favsList} onDelete={deleteFavsHandle}/>}
+        {openWatched && (
+          <UserList
+            list={watchedList}
+            onDelete={deleteWatchedHandle}
+            isLike={isLiked}
+          />
+        )}
+        {openFav && <UserList list={favsList} onDelete={deleteFavsHandle} />}
         {openHome && (
           <Home
             searchShow={search}

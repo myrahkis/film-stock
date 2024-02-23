@@ -27,6 +27,8 @@ function Home({
     // console.log(show);
   }
 
+
+  // можно переделать в функцию handle и не исп useEffect
   useEffect(
     function () {
       const controller = new AbortController();
@@ -69,8 +71,20 @@ function Home({
 
       return () => controller.abort();
     },
-    [searchShow]
+    [defaultShows, searchShow, setShows]
   );
+
+  useEffect(function listeningToEsc() {
+    function callback(e) {
+      if (e.code === "Escape") {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("keydown", callback);
+
+    return () => document.removeEventListener("keydown", callback);
+  }, []);
 
   return (
     <>
@@ -199,13 +213,10 @@ function RateAShow({
 
   useEffect(
     function () {
-      const controller = new AbortController();
-
       async function getShowDetails() {
         setIsLoading(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedShow}&plot=full&`,
-          { signal: controller.signal }
+          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedShow}&plot=full&`
         );
         const data = await res.json();
 
@@ -215,8 +226,6 @@ function RateAShow({
       }
 
       getShowDetails();
-
-      return () => controller.abort();
     },
     [selectedShow]
   );

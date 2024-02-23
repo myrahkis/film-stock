@@ -29,12 +29,14 @@
 .show {
   margin: 30px;
   max-width: max-content;
+  cursor: pointer;
 }
 .show-box {
   display: flex;
   padding: 0 10px;
   margin: 8px 0;
   flex-direction: row;
+  cursor: pointer;
 }
 .show-box:hover {
   background-color: #086474;

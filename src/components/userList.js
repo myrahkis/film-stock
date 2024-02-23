@@ -1,12 +1,26 @@
 import React from "react";
 import "./userList.css";
 
-function UserList({ list, onDelete }) {
-
+function UserList({ list, onDelete, isLiked }) {
   return (
     <ul className="list-watched">
       {list?.map((show) => (
         <li className="watched-show" key={show.imdbID}>
+          {show.liked && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="red"
+              className="bi bi-heart-fill liked"
+              viewBox="0 0 17 17"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
+              />
+            </svg>
+          )}
           <img src={show.Poster} alt="sorry" className="poster-watched" />
           <div className="info-box open">
             <h3>{show.Title}</h3>
@@ -25,7 +39,10 @@ function UserList({ list, onDelete }) {
               <p>
                 Episode duration: <span>{show.Runtime}s</span>
               </p>
-              <button className="remove-btn" onClick={() => onDelete(show.imdbID)}>
+              <button
+                className="remove-btn"
+                onClick={() => onDelete(show.imdbID)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

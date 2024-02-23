@@ -32,3 +32,9 @@
 .btn-svg {
   margin-right: 5px;
 }
+
+.liked {
+  position: absolute;
+  z-index: 999;
+  margin: 5px;
+}

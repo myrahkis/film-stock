@@ -13,8 +13,9 @@ function Home({
   onWatched,
   onLike,
   watchedList,
-  favsList,
+  // favsList,
   defaultShows,
+  isLiked
 }) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,7 +94,7 @@ function Home({
         <div className="boxes-wrapper">
           <ul className={!open ? "list" : "list-box"}>
             {shows?.map((show) => (
-              <li className={!open ? "show" : "show-box"} key={show.imdbID}>
+              <li className={!open ? "show" : "show-box"} key={show.imdbID} onClick={() => openHadle(show)}>
                 <img
                   src={
                     show.Poster !== "N/A"
@@ -106,7 +107,6 @@ function Home({
                 <div className="info-box">
                   <p
                     role="button"
-                    onClick={() => openHadle(show)}
                     style={{
                       cursor: "pointer",
                       maxWidth: "190px",
@@ -137,7 +137,8 @@ function Home({
               onWatched={onWatched}
               onLike={onLike}
               watchedList={watchedList}
-              favsList={favsList}
+              // favsList={favsList}
+              isLiked={isLiked}
             ></RateAShow>
           )}
         </div>
@@ -152,7 +153,7 @@ function RateAShow({
   onWatched,
   onLike,
   watchedList,
-  favsList,
+  isLiked,
 }) {
   const [showDetails, setShowDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -162,11 +163,10 @@ function RateAShow({
     .map((show) => show.imdbID)
     .includes(selectedShow); // такое же для лайков мб
 
-  const isLiked = favsList.map((show) => show.imdbID).includes(selectedShow);
-
   const watchedUserRating = watchedList.find(
     (show) => show.imdbID === selectedShow
   )?.userRating;
+
 
   function addHandle(fn) {
     const newWatched = {
@@ -176,6 +176,7 @@ function RateAShow({
       Poster: showDetails.Poster,
       userRating: userRating,
       Runtime: showDetails.Runtime,
+      liked: isLiked,
     };
 
     fn(newWatched);

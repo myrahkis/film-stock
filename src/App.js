@@ -46,6 +46,8 @@ function App() {
   const [watchedList, setWatchedList] = useState([]);
   const [favsList, setFavsList] = useState([]);
 
+  const isLiked = favsList.map((show) => show.imdbID).includes(selected);
+
   function openHomeHandle() {
     setOpenHome(true);
     setOpenFav(false);
@@ -95,7 +97,7 @@ function App() {
         </ButtonHeader>
       </Header>
       <div className="container-main main">
-        {openWatched && <UserList list={watchedList} onDelete={deleteWatchedHandle}/>}
+        {openWatched && <UserList list={watchedList} onDelete={deleteWatchedHandle} isLike={isLiked}/>}
         {openFav && <UserList list={favsList} onDelete={deleteFavsHandle}/>}
         {openHome && (
           <Home
@@ -108,7 +110,7 @@ function App() {
             onWatched={addToWatchedHandle}
             onLike={likeShowHandle}
             watchedList={watchedList}
-            favsList={favsList}
+            isLiked={isLiked}
           />
         )}
       </div>

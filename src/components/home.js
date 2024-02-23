@@ -2,37 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./home.css";
 import StarRating from "./starRating";
 
-const defaultShows = [
-  {
-    imdbID: "tt1520211",
-    Title: "The walking dead",
-    Year: "2010",
-    Poster:
-      "https://www.filmtv.it/imgbank/GALLERYXL/R201512/walking-dead_00.jpg",
-    runtime: 44,
-    rating: 8.1,
-    userRating: 7.5,
-  },
-  {
-    imdbID: "tt0903747",
-    Title: "Breaking Bad",
-    Year: "2008",
-    Poster: "https://www.filmtv.it/imgbank/GALLERYXL/R201605/00-40.jpg",
-    runtime: 45,
-    rating: 9.5,
-    userRating: 9.5,
-  },
-  {
-    imdbID: "tt0413573",
-    Title: "Grey's Anatomy",
-    Year: "2005",
-    Poster: "https://www.filmtv.it/imgbank/GALLERYXL/R201608/grey00.jpg",
-    runtime: 41,
-    rating: 7.5,
-    userRating: 6.2,
-  },
-];
-
 const KEY = "affef0d";
 
 function Home({
@@ -43,9 +12,9 @@ function Home({
   setSelected,
   onWatched,
   onLike,
-  checkIfLiked,
   watchedList,
   favsList,
+  defaultShows,
 }) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -167,7 +136,6 @@ function Home({
               onBack={setOpen}
               onWatched={onWatched}
               onLike={onLike}
-              isLiked={checkIfLiked}
               watchedList={watchedList}
               favsList={favsList}
             ></RateAShow>
@@ -183,7 +151,6 @@ function RateAShow({
   onBack,
   onWatched,
   onLike,
-  isLiked,
   watchedList,
   favsList,
 }) {
@@ -194,6 +161,8 @@ function RateAShow({
   const isWatched = watchedList
     .map((show) => show.imdbID)
     .includes(selectedShow); // такое же для лайков мб
+
+  const isLiked = favsList.map((show) => show.imdbID).includes(selectedShow);
 
   const watchedUserRating = watchedList.find(
     (show) => show.imdbID === selectedShow
@@ -277,8 +246,22 @@ function RateAShow({
                 </div>
               </div>
             </div>
-            <button className="like-btn" onClick={() => addHandle(onLike)}>
-              {isLiked(selectedShow) ? (
+            {!isLiked && (
+              <button className="like-btn" onClick={() => addHandle(onLike)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="27"
+                  height="27"
+                  fill="red"
+                  class="bi bi-heartbreak-fill"
+                  viewBox="0 0 17 17"
+                >
+                  <path d="M8.931.586 7 3l1.5 4-2 3L8 15C22.534 5.396 13.757-2.21 8.931.586M7.358.77 5.5 3 7 7l-1.5 3 1.815 4.537C-6.533 4.96 2.685-2.467 7.358.77" />
+                </svg>
+              </button>
+            )}
+            {isLiked && (
+              <button className="like-btn disabled" disabled>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="27"
@@ -292,19 +275,8 @@ function RateAShow({
                     d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
                   />
                 </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="27"
-                  height="27"
-                  fill="red"
-                  class="bi bi-heartbreak-fill"
-                  viewBox="0 0 17 17"
-                >
-                  <path d="M8.931.586 7 3l1.5 4-2 3L8 15C22.534 5.396 13.757-2.21 8.931.586M7.358.77 5.5 3 7 7l-1.5 3 1.815 4.537C-6.533 4.96 2.685-2.467 7.358.77" />
-                </svg>
-              )}
-            </button>
+              </button>
+            )}
           </div>
           <div className="text-info-wrap">
             <p className="plot">

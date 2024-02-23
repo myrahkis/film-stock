@@ -1,6 +1,6 @@
 import "./header.css";
 
-function Header({ search, setSearch, children }) {
+function Header({ search, setSearch, results, defaultShows, children }) {
   return (
     <div className="header">
       <div className="btns">
@@ -18,9 +18,11 @@ function Header({ search, setSearch, children }) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search a TV show..."
-        className="search"
+        className={
+          results === defaultShows ? "search search-default" : "search"
+        }
       ></input>
-      <p>Found {search.length} results</p>
+      {results !== defaultShows && <p>Found {results.length} results</p>}
     </div>
   );
 }

@@ -5,6 +5,37 @@ import Home from "./components/home";
 import ButtonHeader from "./components/buttonHeader";
 import UserList from "./components/userList";
 
+const defaultShows = [
+  {
+    imdbID: "tt1520211",
+    Title: "The walking dead",
+    Year: "2010",
+    Poster:
+      "https://www.filmtv.it/imgbank/GALLERYXL/R201512/walking-dead_00.jpg",
+    runtime: 44,
+    rating: 8.1,
+    userRating: 7.5,
+  },
+  {
+    imdbID: "tt0903747",
+    Title: "Breaking Bad",
+    Year: "2008",
+    Poster: "https://www.filmtv.it/imgbank/GALLERYXL/R201605/00-40.jpg",
+    runtime: 45,
+    rating: 9.5,
+    userRating: 9.5,
+  },
+  {
+    imdbID: "tt0413573",
+    Title: "Grey's Anatomy",
+    Year: "2005",
+    Poster: "https://www.filmtv.it/imgbank/GALLERYXL/R201608/grey00.jpg",
+    runtime: 41,
+    rating: 7.5,
+    userRating: 6.2,
+  },
+];
+
 function App() {
   const [openHome, setOpenHome] = useState(true);
   const [openWatched, setOpenWatched] = useState(false);
@@ -36,25 +67,23 @@ function App() {
   }
   function likeShowHandle(show) {
     setFavsList((favsList) => [...favsList, show]);
-
-    // !! перенести это на страницу избранного !!
-
-    // if (liked ) {
-    //   setFavsList((favsList) =>
-    //     favsList.filter((favShow) => favShow.imdbID !== show)
-    //   );
-    // }
   }
-  function checkIfLiked(show) {
-    if (favsList.indexOf(show)) {
-      return true;
-    }
+
+  function deleteWatchedHandle(id) {
+    setWatchedList((watchedList) => watchedList.filter((show) => show.imdbID !== id));
   }
-  console.log(watchedList);
+  function deleteFavsHandle(id) {
+    setFavsList((favsList) => favsList.filter((show) => show.imdbID !== id));
+  }
 
   return (
     <div className="App">
-      <Header search={search} setSearch={setSearch}>
+      <Header
+        search={search}
+        setSearch={setSearch}
+        results={shows}
+        defaultShows={defaultShows}
+      >
         <ButtonHeader opened={openHome} setter={openHomeHandle}>
           ShowSlayer
         </ButtonHeader>
@@ -66,18 +95,18 @@ function App() {
         </ButtonHeader>
       </Header>
       <div className="container-main main">
-        {openWatched && <UserList list={watchedList} />}
-        {openFav && <UserList list={favsList} />}
+        {openWatched && <UserList list={watchedList} onDelete={deleteWatchedHandle}/>}
+        {openFav && <UserList list={favsList} onDelete={deleteFavsHandle}/>}
         {openHome && (
           <Home
             searchShow={search}
+            defaultShows={defaultShows}
             shows={shows}
             setShows={setShows}
             selected={selected}
             setSelected={setSelected}
             onWatched={addToWatchedHandle}
             onLike={likeShowHandle}
-            checkIfLiked={checkIfLiked}
             watchedList={watchedList}
             favsList={favsList}
           />

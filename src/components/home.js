@@ -15,7 +15,7 @@ function Home({
   watchedList,
   // favsList,
   defaultShows,
-  isLiked
+  isLiked,
 }) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,12 +29,16 @@ function Home({
 
   useEffect(
     function () {
+      const controller = new AbortController();
+
       async function fetchShows() {
         try {
           setIsLoading(true);
           setError("");
+
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${searchShow}&type=series`
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${searchShow}&type=series`,
+            { signal: controller.signal }
           );
 
           if (!res.ok)
@@ -49,7 +53,8 @@ function Home({
           setError("");
         } catch (e) {
           console.error(e.message);
-          setError(e.message);
+
+          if (e.name !== "AbortError") setError(e.message);
         } finally {
           setIsLoading(false);
         }
@@ -61,6 +66,8 @@ function Home({
       }
 
       fetchShows();
+
+      return () => controller.abort();
     },
     [searchShow]
   );
@@ -94,7 +101,11 @@ function Home({
         <div className="boxes-wrapper">
           <ul className={!open ? "list" : "list-box"}>
             {shows?.map((show) => (
-              <li className={!open ? "show" : "show-box"} key={show.imdbID} onClick={() => openHadle(show)}>
+              <li
+                className={!open ? "show" : "show-box"}
+                key={show.imdbID}
+                onClick={() => openHadle(show)}
+              >
                 <img
                   src={
                     show.Poster !== "N/A"
@@ -139,6 +150,7 @@ function Home({
               watchedList={watchedList}
               // favsList={favsList}
               isLiked={isLiked}
+              shows={shows}
             ></RateAShow>
           )}
         </div>
@@ -154,6 +166,7 @@ function RateAShow({
   onLike,
   watchedList,
   isLiked,
+  shows,
 }) {
   const [showDetails, setShowDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -167,6 +180,7 @@ function RateAShow({
     (show) => show.imdbID === selectedShow
   )?.userRating;
 
+  let title = shows.find((show) => show.imdbID === selectedShow)?.Title;
 
   function addHandle(fn) {
     const newWatched = {
@@ -185,10 +199,13 @@ function RateAShow({
 
   useEffect(
     function () {
+      const controller = new AbortController();
+
       async function getShowDetails() {
         setIsLoading(true);
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedShow}&plot=full&`
+          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedShow}&plot=full&`,
+          { signal: controller.signal }
         );
         const data = await res.json();
 
@@ -198,8 +215,20 @@ function RateAShow({
       }
 
       getShowDetails();
+
+      return () => controller.abort();
     },
     [selectedShow]
+  );
+
+  useEffect(
+    function changePageTitle() {
+      if (!title) return;
+      document.title = `Show | ${title}`;
+
+      return () => (document.title = "ShowSlayer");
+    },
+    [title]
   );
 
   return (

@@ -27,7 +27,6 @@ function Home({
     // console.log(show);
   }
 
-
   // можно переделать в функцию handle и не исп useEffect
   useEffect(
     function () {

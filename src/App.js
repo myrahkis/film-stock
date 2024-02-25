@@ -43,8 +43,20 @@ function App() {
   const [search, setSearch] = useState("");
   const [shows, setShows] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [watchedList, setWatchedList] = useState([]);
-  const [favsList, setFavsList] = useState([]);
+  const [watchedList, setWatchedList] = useState(function () {
+    let storedVals = localStorage.getItem("watched");
+
+    if (storedVals === null) return (storedVals = []);
+
+    return JSON.parse(storedVals);
+  });
+  const [favsList, setFavsList] = useState(function () {
+    let storedVals = localStorage.getItem("liked");
+
+    if (storedVals === null) return (storedVals = []);
+
+    return JSON.parse(storedVals);
+  });
 
   const isLiked = favsList.map((show) => show.imdbID).includes(selected);
 
@@ -59,8 +71,22 @@ function App() {
 
     document.addEventListener("keydown", callback);
 
-    return () => document.removeEventListener('keydown', callback);
+    return () => document.removeEventListener("keydown", callback);
   }, []);
+
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watchedList));
+    },
+    [watchedList]
+  );
+
+  useEffect(
+    function () {
+      localStorage.setItem("liked", JSON.stringify(favsList));
+    },
+    [favsList]
+  );
 
   function openHomeHandle() {
     setOpenHome(true);

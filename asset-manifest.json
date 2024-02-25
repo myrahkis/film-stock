@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/film-stock/static/css/main.a13982bb.css",
-    "main.js": "/film-stock/static/js/main.5fabbb64.js",
+    "main.js": "/film-stock/static/js/main.08398bfe.js",
     "index.html": "/film-stock/index.html",
     "main.a13982bb.css.map": "/film-stock/static/css/main.a13982bb.css.map",
-    "main.5fabbb64.js.map": "/film-stock/static/js/main.5fabbb64.js.map"
+    "main.08398bfe.js.map": "/film-stock/static/js/main.08398bfe.js.map"
   },
   "entrypoints": [
     "static/css/main.a13982bb.css",
-    "static/js/main.5fabbb64.js"
+    "static/js/main.08398bfe.js"
   ]
 }

@@ -1,6 +1,23 @@
+import { useEffect, useRef } from "react";
 import "./header.css";
 
 function Header({ search, setSearch, results, defaultShows, children }) {
+  const inputEl = useRef(null);
+
+  useEffect(function () {
+    function callback(e) {
+      if (document.activeElement === inputEl.current) return;
+
+      if (e.code === "Enter") {
+        inputEl.current.focus();
+        setSearch("");
+      }
+    }
+    document.addEventListener("keydown", callback);
+
+    return () => document.addEventListener("keydown", callback);
+  }, [setSearch]);
+
   return (
     <div className="header">
       <div className="btns">
@@ -21,6 +38,7 @@ function Header({ search, setSearch, results, defaultShows, children }) {
         className={
           results === defaultShows ? "search search-default" : "search"
         }
+        ref={inputEl}
       ></input>
       {results !== defaultShows && <p>Found {results.length} results</p>}
     </div>

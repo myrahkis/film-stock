@@ -4,6 +4,7 @@ import Header from "./components/header";
 import Home from "./components/home";
 import ButtonHeader from "./components/buttonHeader";
 import UserList from "./components/userList";
+import { useLocalStorage } from "./components/useLocalStorage";
 
 const defaultShows = [
   {
@@ -43,21 +44,9 @@ function App() {
   const [search, setSearch] = useState("");
   const [shows, setShows] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [watchedList, setWatchedList] = useState(function () {
-    let storedVals = localStorage.getItem("watched");
 
-    if (storedVals === null) return (storedVals = []);
-
-    return JSON.parse(storedVals);
-  });
-  const [favsList, setFavsList] = useState(function () {
-    let storedVals = localStorage.getItem("liked");
-
-    if (storedVals === null) return (storedVals = []);
-
-    return JSON.parse(storedVals);
-  });
-
+  const [watchedList, setWatchedList] = useLocalStorage('watched', [])
+  const [favsList, setFavsList] = useLocalStorage('liked', []);
   const isLiked = favsList.map((show) => show.imdbID).includes(selected);
 
   useEffect(function listeningToEsc() {
@@ -73,20 +62,6 @@ function App() {
 
     return () => document.removeEventListener("keydown", callback);
   }, []);
-
-  useEffect(
-    function () {
-      localStorage.setItem("watched", JSON.stringify(watchedList));
-    },
-    [watchedList]
-  );
-
-  useEffect(
-    function () {
-      localStorage.setItem("liked", JSON.stringify(favsList));
-    },
-    [favsList]
-  );
 
   function openHomeHandle() {
     setOpenHome(true);

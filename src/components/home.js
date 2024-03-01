@@ -13,7 +13,7 @@ function Home({
   onWatched,
   onLike,
   watchedList,
-  // favsList,
+  setCollapseMenu,
   defaultShows,
   isLiked,
 }) {
@@ -24,6 +24,7 @@ function Home({
   function openHadle(show) {
     setOpen(true);
     setSelected(show.imdbID);
+    setCollapseMenu(false);
     // console.log(show);
   }
 

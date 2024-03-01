@@ -35,6 +35,24 @@ const defaultShows = [
     rating: 7.5,
     userRating: 6.2,
   },
+  {
+    imdbID: "tt0944947",
+    Title: "Game of Thrones",
+    Year: "2011",
+    Poster: "https://www.filmtv.it/imgbank/GALLERYXL/R201605/00-51.jpg",
+    runtime: 55,
+    rating: 9.2,
+    userRating: 6.2,
+  },
+  {
+    imdbID: "tt1475582",
+    Title: "Sherlock",
+    Year: "2010",
+    Poster: "https://www.filmtv.it/imgbank/GALLERYXL/R201608/6311e0343c.jpg",
+    runtime: 88,
+    rating: 9.1,
+    userRating: 6.2,
+  },
 ];
 
 function App() {
@@ -44,9 +62,10 @@ function App() {
   const [search, setSearch] = useState("");
   const [shows, setShows] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [collapseMenu, setCollapseMenu] = useState(false);
 
-  const [watchedList, setWatchedList] = useLocalStorage('watched', [])
-  const [favsList, setFavsList] = useLocalStorage('liked', []);
+  const [watchedList, setWatchedList] = useLocalStorage("watched", []);
+  const [favsList, setFavsList] = useLocalStorage("liked", []);
   const isLiked = favsList.map((show) => show.imdbID).includes(selected);
 
   useEffect(function listeningToEsc() {
@@ -55,6 +74,7 @@ function App() {
         setOpenHome(true);
         setOpenWatched(false);
         setOpenFav(false);
+        setCollapseMenu(false);
       }
     }
 
@@ -67,16 +87,19 @@ function App() {
     setOpenHome(true);
     setOpenFav(false);
     setOpenWatched(false);
+    setCollapseMenu(false);
   }
   function openWatchedHandle() {
     setOpenWatched(true);
     setOpenHome(false);
     setOpenFav(false);
+    setCollapseMenu(false);
   }
   function openFavHandle() {
     setOpenFav(true);
     setOpenHome(false);
     setOpenWatched(false);
+    setCollapseMenu(false);
   }
 
   function addToWatchedHandle(show) {
@@ -95,6 +118,10 @@ function App() {
     setFavsList((favsList) => favsList.filter((show) => show.imdbID !== id));
   }
 
+  function clickMenuHandle() {
+    setCollapseMenu(() => !collapseMenu);
+  }
+
   return (
     <div className="App">
       <Header
@@ -102,6 +129,9 @@ function App() {
         setSearch={setSearch}
         results={shows}
         defaultShows={defaultShows}
+        collapseMenu={collapseMenu}
+        setCollapseMenu={setCollapseMenu}
+        onCollapse={clickMenuHandle}
       >
         <ButtonHeader opened={openHome} setter={openHomeHandle}>
           ShowSlayer
@@ -134,6 +164,7 @@ function App() {
             onLike={likeShowHandle}
             watchedList={watchedList}
             isLiked={isLiked}
+            setCollapseMenu={setCollapseMenu}
           />
         )}
       </div>

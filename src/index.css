@@ -23,7 +23,7 @@ body {
   min-width: 97%;
   min-height: 85vh;
   max-height: fit-content;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   display: flex;
   flex-direction: column;
 }

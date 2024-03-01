@@ -1,4 +1,5 @@
 .App {
+  margin: 0 auto;
   text-align: center;
   flex-direction: column;
 }
@@ -9,4 +10,27 @@
   margin: 20px;
   background-color: #075968;
   border-radius: 15px;
+}
+
+/* Medium: 768-991px */
+@media (max-width: 991px) {
+  .main {
+    margin: 10px;
+  }
+}
+
+/* Small: 576-767px */
+@media (max-width: 767px) {
+  .main {
+    margin: 9px;
+    padding: 10px;
+  }
+}
+
+/* Extra small: 320-575px */
+@media (max-width: 575px) {
+  .main {
+    margin: 10px 5px;
+    padding: 0;
+  }
 }
